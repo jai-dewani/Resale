@@ -1,0 +1,39 @@
+{% include 'partials/header.html' %}
+
+
+{% ifequal userType 'P' %}
+<p style="margin-top: 10px;" class="container text-right">
+	<a href="{% url 'miniproject:newQuestion' subject_id %}" class="btn btn-primary">
+		Add new Question
+	</a>	
+</p>
+{% else %}
+<p></p>
+{% endifequal %}
+
+
+<div class="container">
+	{% if questions %}
+		{% for question in questions %}
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title">{{question.QName}}</h5>
+							<p style="float: left;" class="card-text">
+								<i>Question code: {{question.QCode}}</i><br>
+							</p>
+							<p style="float: right;" class="text-right">
+								<a href="{% url 'miniproject:question' subject_id question.id %}" class="btn btn-primary">Check</a>
+							</p>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+			<br>
+		{% endfor %}
+	{% endif %}
+</div>
+
+{% include 'partials/footer.html' %}

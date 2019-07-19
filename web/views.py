@@ -5,13 +5,21 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 
 # Create your views here.
-
+from .models import Item, Comment, User, Images
 
 def index(request):
 	if not request.user.is_authenticated:
 		return redirect('/loginuser')
 	else:
-		context = {}
+		try:
+			user = User.objects.get(user=request.user)
+			context = {
+				'user':user,
+				'username':user.username
+			}
+			print(user)
+		except:
+			context = {}
 		return render(request,'index.html',context)
 
 
@@ -51,7 +59,7 @@ def signupview(request):
 			email=email,
 			password=password
 		)
-		accountUser = AccountUser(
+		accountUser = User(
 			user = user,
 			phoneNumber = phoneNumber,
 			semester = sem

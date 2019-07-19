@@ -1,0 +1,96 @@
+{% include 'partials/header.html' %}
+<p></p>
+<div class="container">
+	<div class="row">
+		<div class="col-sm">
+			<div class="card">
+				<div class="card-header">
+					{{subject_name}}
+				</div>
+				<div class="card-body">
+					<h5 class="card-title">{{question.QName}}</h5>
+					<p class="card-text">{{question.QDesc}}</p>
+					<b>Question Code: </b> {{question.QCode}}<br>
+					<i>Created by: </i> {{question.createdBy}}<br>
+					<br>
+					Submit your code:
+					<form action="" class="form-group" method="POST" enctype="multipart/form-data">
+						{% csrf_token %}
+						
+						<select class="form-control" id="language">
+							<option value="c">C</option>
+							<option value="c++">C++</option>
+							<option value="java">Java</option>
+							<option value="python2">Python 2.x</option>
+							<option value="python3">Python 3.x</option>
+						</select>
+
+						<div id="codearea">
+							<textarea class="form-control" placeholder="Type your code here" rows="10"></textarea>
+						</div>
+						
+						<div style="margin-bottom: -20px; margin-top: 10px" class="text-center">or</div>
+						
+						<div class="custom-file container" id="fileoption">
+							<input type="file" name="code" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+							<label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+						</div>
+
+						<input class="btn btn-primary" type="submit" value="Submit">
+						<!-- <input type="file" name="code"> -->
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<br><br>
+		<div class="row">
+			<div class="col-sm">
+				Test Cases:
+			</div>
+			<div class="col-sm"></div>
+			{% ifequal userType 'P' %}
+			<div class="col-sm">
+				<a href="{% url 'miniproject:testcase' subject_id question.id %}">Add TestCases</a>
+			</div>
+			{% endifequal %}
+		</div>
+	{% if testcase %}
+		{% for case in testcase %}
+		<div class="row">
+			<div class="col-sm">
+			    <b>Input: </b>
+				<a href="{{case.input.url}}">
+				{{case.input}} 
+				</a>
+				
+			</div>
+			<div class="col-sm">
+				<b>Output:</b>
+			    <a href="{{case.output.url}}">
+				    {{case.output}}
+				</a>			
+			</div>
+		</div>
+		<br>
+		{% endfor %}
+	{% endif %}
+</div>
+
+<br>
+
+<style>
+	#codearea{
+		/* margin-top: 1%; */
+		margin-bottom: 1%;
+	}
+	#language{
+		margin-top: 1%;
+		margin-bottom: 1%;
+	}
+	#fileoption{
+		margin-bottom: 1%;
+	}
+</style>
+{% include 'partials/footer.html' %}
