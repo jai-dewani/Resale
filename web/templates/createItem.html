@@ -1,0 +1,85 @@
+{% include 'partials/header.html' %}
+<header style="margin: 2%">
+	<h2 class="text-center">Create a new Item</h2>
+</header>
+<hr>
+<div class="container">
+	<div class="row">
+		<div class="col-sm-2">
+
+		</div>
+		<div class="col-sm-8">
+			
+			<div class="text-center" style="min-height: 10%">
+				{{message}}
+			</div>
+			<form method="POST" enctype="multipart/form-data">
+				{% csrf_token %}
+				<div class="input-group row" style="margin:15px;">
+					<div class="col-1"></div>
+					<div class="col-sm-10">
+						<input type="text" name="itemname" class='form-control' placeholder="Item Name" required>
+					</div>
+				</div>
+				<div class="input-group row" style="margin:15px;">
+					<div class="col-1"></div>
+					<div class="col-sm-10">
+						<textarea name="description" rows="5" placeholder="Description about item" class="form-control" aria-label="With textarea"></textarea>
+					</div>
+				</div>
+				<div class="input-group row" style="margin:15px;">
+					<div class="col-1"></div>
+					<div class="col-sm-10">
+						
+						<input type="text" name="price" class="form-control" placeholder="Prize you want to sell at" required>
+					</div>
+				</div>
+				
+				<div class="input-group row" style="margin:15px;">
+					<div class="col-1"></div>
+					<div class="col-sm-10">
+						<input type="file" name="images" id='file' class="inputfile" multiple required />
+						<label for="file" class="text-center"><i class="fas fa-upload"></i> Upload Images...</label>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-3"></div>
+					<div class="col-sm-6">
+						<input type="submit" class="btn btn-primary btn-block" value="Create Item"/>
+					</div>
+				</div>	
+			</form>
+		</div>
+	</div>
+</div>
+
+<style>
+	.inputfile{
+		width: 0.1px;
+		height: 0.1px;
+		opacity: 0;
+		overflow: hidden;
+		position: absolute;
+		z-index: -1;
+	}
+
+	.inputfile + label{
+		font-size: 1.1em;
+		font-weight: 700;
+		color: white;
+		background-color: #1870b6;
+		display: inline-block;
+		padding: 5px;
+		border: solid #2c2c2c 2px;
+	}
+	.inputfile:focus + label,
+	.inputfile + label:hover {
+		background-color: #004386;
+	}
+	.inputfile + label {
+		cursor: pointer; /* "hand" cursor */
+	}
+</style>
+
+{% include 'partials/footer.html' %}

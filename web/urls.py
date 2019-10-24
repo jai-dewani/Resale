@@ -10,5 +10,5 @@ urlpatterns = [
     path('signupuser',views.signupview,name='signupuser'),
     path('loginuser',views.loginview,name='loginuser'),
     path('logoutuser',views.logoutview,name='logoutuser'),
-    
+    path('createItem',views.createItem,name='createItem')
 ]

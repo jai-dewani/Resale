@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 
 # Create your views here.
-from .models import Item, Comment, User, Images
+from .models import Item, Comment, UserAccount, Image
 
 def index(request):
 	if not request.user.is_authenticated:
@@ -22,6 +22,37 @@ def index(request):
 			context = {}
 		return render(request,'index.html',context)
 
+
+def createItem(request):
+	if request.method=='POST':
+		user = UserAccount.objects.get(user=request.user)
+		itemname = request.POST['itemname']
+		description = request.POST['description']
+		price = request.POST['price']
+		# print("IMAGES",request.FILES['images'])
+		images = request.FILES.getlist('images')
+		# print("IMAGES",images)
+		newItem = Item(
+			user = user,
+			itemName = itemname,
+			description = description,
+			price = price
+		)
+		newItem.save()
+		for image in images:
+			newImage = Image(
+				item = newItem,
+				image = image
+			)
+			newImage.save()
+
+		return redirect('/')
+	else:
+		if not request.user.is_authenticated:
+			return redirect('/loginuser')
+		else:
+			context = {}
+			return render(request,'createItem.html',context)
 
 def loginview(request):
 	if request.method=='POST':
@@ -51,15 +82,15 @@ def signupview(request):
 		username = request.POST['username']
 		password = request.POST['password']
 		email = request.POST['email']
-		phoneNumber = request.POST['phoneNumber']
 		sem = request.POST['sem']
+		phoneNumber = request.POST['phoneNumber']
 		# try:
 		user = User.objects.create_user(
 			username = username,
 			email=email,
 			password=password
 		)
-		accountUser = User(
+		accountUser = UserAccount(
 			user = user,
 			phoneNumber = phoneNumber,
 			semester = sem
@@ -81,6 +112,8 @@ def signupview(request):
 			return render(request,'login.html',context)
 	else:
 		return render(request,'signup.html')
+
+
 
 
 def logoutview(request):
